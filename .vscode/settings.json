@@ -2,6 +2,9 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "stdbool.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "tty.h": "c",
+        "vga.h": "c",
+        "stdio.h": "c"
     }
 }
