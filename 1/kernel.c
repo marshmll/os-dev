@@ -74,6 +74,22 @@ void terminal_initialize(void)
 	}
 }
 
+void terminal_scroll(void)
+{
+	for (size_t y = 1; y < VGA_HEIGHT; y++)
+	{
+		for (size_t x = 0; x < VGA_WIDTH; x++)
+		{
+			const size_t new_index = (y - 1) * VGA_WIDTH + x;
+			const size_t original_index = y * VGA_WIDTH + x;
+
+			terminal_buffer[new_index] = terminal_buffer[original_index];
+
+			terminal_row = VGA_HEIGHT - 1;
+		}
+	}
+}
+
 void terminal_setcolor(uint8_t color)
 {
 	terminal_color = color;
@@ -92,7 +108,7 @@ void terminal_putchar(char c)
 		terminal_col = 0;
 
 		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
+			terminal_scroll();
 
 		return;
 	}
@@ -104,7 +120,7 @@ void terminal_putchar(char c)
 		terminal_col = 0;
 
 		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
+			terminal_scroll();
 	}
 }
 
@@ -125,5 +141,5 @@ void kernel_main(void)
 
 	terminal_setcolor(VGA_COLOR_LIGHT_GRAY);
 
-	terminal_writestr("Hello, kernel world!");
+	terminal_writestr("Hello, kernel!\n");
 }
